@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="City">
+
+    <resultMap id="city" class="com.source.root.min.entity.City">
+        	<result property="id" column="id"/>
+        	<result property="code" column="code"/>
+        	<result property="name" column="name"/>
+        	<result property="parentId" column="parent_id"/>
+        	<result property="firstLetter" column="first_letter"/>
+        	<result property="level" column="level"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,code ,name ,parent_id ,first_letter ,level 
+	    ]]>
+	</sql>
+	
+    <insert id="save" >
+    <![CDATA[
+        INSERT INTO sys_city (
+        	id ,
+        	code ,
+        	name ,
+        	parent_id ,
+        	first_letter ,
+        	level 
+        ) VALUES (
+        	#id# ,
+        	#code# ,
+        	#name# ,
+        	#parentId# ,
+        	#firstLetter# ,
+        	#level# 
+        )
+    ]]>
+    </insert>
+
+	<insert id="saveNotNull" >
+        INSERT INTO sys_city (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	id
+			</isNotNull>
+			<isNotNull prepend="," property="code">
+        	code
+			</isNotNull>
+			<isNotNull prepend="," property="name">
+        	name
+			</isNotNull>
+			<isNotNull prepend="," property="parentId">
+        	parent_id
+			</isNotNull>
+			<isNotNull prepend="," property="firstLetter">
+        	first_letter
+			</isNotNull>
+			<isNotNull prepend="," property="level">
+        	level
+			</isNotNull>
+		</dynamic>
+        ) VALUES (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	#id#
+			</isNotNull>
+			<isNotNull prepend="," property="code">
+        	#code#
+			</isNotNull>
+			<isNotNull prepend="," property="name">
+        	#name#
+			</isNotNull>
+			<isNotNull prepend="," property="parentId">
+        	#parentId#
+			</isNotNull>
+			<isNotNull prepend="," property="firstLetter">
+        	#firstLetter#
+			</isNotNull>
+			<isNotNull prepend="," property="level">
+        	#level#
+			</isNotNull>
+		</dynamic>    
+        )
+    </insert>
+
+     <update id="update" >
+    <![CDATA[
+        UPDATE sys_city SET
+	        code = #code# ,
+	        name = #name# ,
+	        parent_id = #parentId# ,
+	        first_letter = #firstLetter# ,
+	        level = #level# 
+        WHERE 
+	        id = #id# 
+    ]]>
+    </update>
+
+	 <update id="updateById" >
+        UPDATE sys_city
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="code">
+	        code = #code#
+			</isNotNull>
+			<isNotNull prepend="," property="name">
+	        name = #name#
+			</isNotNull>
+			<isNotNull prepend="," property="parentId">
+	        parent_id = #parentId#
+			</isNotNull>
+			<isNotNull prepend="," property="firstLetter">
+	        first_letter = #firstLetter#
+			</isNotNull>
+			<isNotNull prepend="," property="level">
+	        level = #level#
+			</isNotNull>
+		</dynamic>
+        WHERE 
+	        id = #id# 
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM sys_city WHERE
+        id = #id# 
+    ]]>
+    </delete>
+
+   <delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM sys_city
+    ]]>
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" />
+    </delete>
+    
+    <select id="getById" resultMap="city">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_city 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+    </select>
+
+    <select id="getByQuery" resultMap="city">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_city 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="getByMaxId" resultMap="city">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_city 
+		WHERE 
+		        id = (SELECT MAX(id) from sys_city )
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	 
+    <select id="getCountByQuery" resultClass="Integer">
+        SELECT count(*) FROM sys_city   
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+    </select>
+    
+    
+    <select id="findAll" resultMap="city">
+    	SELECT <include refid="columns"/> FROM sys_city 
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="findPage" resultMap="city">
+	select <include refid="columns"/> from (
+		select ROW_NUMBER() OVER(
+		<include refid="CommenXML.OrderCommen" />
+		) rowNum, 
+		<include refid="columns"/> from sys_city
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	) as sys_city 
+	<include refid="CommenXML.rowNumCommen" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	
+</sqlMap>
+

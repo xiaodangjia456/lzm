@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CommenXML">
+
+	<!-- Where...And... -->
+	<sql id="WhereAndParameter">
+		<dynamic prepend="where">
+			<isNotNull property="andCondition">
+				<iterate property="andCondition" conjunction="and">
+					$andCondition[].key$
+					$andCondition[].params$
+					$andCondition[].value$
+				</iterate>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	
+	<!-- ...And... -->
+	<sql id="AndParameter">
+		<isNotNull prepend="and" property="andCondition">
+			<iterate property="andCondition" conjunction="and">
+				$andCondition[].key$
+				$andCondition[].params$
+				$andCondition[].value$
+			</iterate>
+		</isNotNull>
+	</sql>
+	
+	<!-- On...And... -->
+	<sql id="OnAndParameter">
+		<dynamic prepend="ON">
+			<isNotNull property="andCondition">
+				<iterate property="andCondition" conjunction="and">
+					$andCondition[].key$
+					$andCondition[].params$
+					$andCondition[].value$
+				</iterate>
+			</isNotNull>
+		</dynamic>
+	</sql>
+
+	<!-- ...And... -->
+	<sql id="FNAndParameter">
+		<isNotNull prepend="" property="andCondition">
+			<iterate property="andCondition" conjunction="and">
+				$andCondition[].key$
+				$andCondition[].params$
+				$andCondition[].value$
+			</iterate>
+		</isNotNull>
+	</sql>
+	<!-- Where...Or... -->
+	<sql id="WhereOrParameter">
+		<dynamic prepend="where">
+			<isNotNull property="orCondition">
+				<iterate property="orCondition" conjunction="or">
+					$orCondition[].key$
+					$orCondition[].params$
+					$orCondition[].value$
+				</iterate>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	<!-- On...Or... -->
+	<sql id="OnOrParameter">
+		<dynamic prepend="ON">
+			<isNotNull property="orCondition">
+				<iterate property="orCondition" conjunction="or">
+					$orCondition[].key$
+					$orCondition[].params$
+					$orCondition[].value$
+				</iterate>
+			</isNotNull>
+		</dynamic>
+	</sql>
+
+	<!-- ...Or... -->
+	<sql id="OrParameter">
+		<isNotNull prepend="and" property="orCondition">
+			<iterate property="orCondition" conjunction="or">
+				$orCondition[].key$
+				$orCondition[].params$
+				$orCondition[].value$
+			</iterate>
+		</isNotNull>
+	</sql>
+	<!-- ...Or... -->
+	<sql id="FNOrParameter">
+		<isNotNull prepend="" property="orCondition">
+			<iterate property="orCondition" conjunction="or">
+				$orCondition[].key$
+				$orCondition[].params$
+				$orCondition[].value$
+			</iterate>
+		</isNotNull>
+	</sql>
+
+	<!-- Order by 排序 -->
+	<sql id="OrderCommen">
+		<isNotNull prepend="" property="orderCondition">
+			order by
+			<iterate property="orderCondition" conjunction=",">
+				$orderCondition[].orderKey$
+				$orderCondition[].orderValue$
+			</iterate>
+		</isNotNull>
+	</sql>
+
+	<!-- Limit 分页 -->
+	<sql id="LimitCommen">
+		<isNotNull prepend=" " property="pager.currentResult">
+			<isNotNull prepend=" " property="pager.showCount">
+				limit
+				#pager.currentResult#,#pager.showCount#
+			</isNotNull>
+		</isNotNull>
+	</sql>
+
+	<!-- rowNum 分页 -->
+	<sql id="rowNumCommen">
+		<isNotNull prepend=" " property="pager.currentPage">
+			<isNotNull prepend=" where " property="pager.showCount">
+			    <![CDATA[
+			    	rowNum>(#pager.currentPage-1#*#pager.showCount#) and 
+			    	rowNum<=((#pager.currentPage#)*#pager.showCount#)
+			    ]]>
+			</isNotNull>
+		</isNotNull>
+	</sql>
+
+</sqlMap>

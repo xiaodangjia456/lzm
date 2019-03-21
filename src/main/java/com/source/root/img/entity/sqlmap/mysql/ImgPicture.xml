@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="ImgPicture">
+
+    <resultMap id="imgpicture" class="com.source.root.img.entity.ImgPicture">
+        	<result property="id" column="id"/>
+        	<result property="siteId" column="siteId"/>
+        	<result property="siteAlias" column="siteAlias"/>
+        	<result property="deviceId" column="deviceId"/>
+        	<result property="imgDate" column="imgDate"/>
+        	<result property="imgName" column="imgName"/>
+        	<result property="imgPath" column="imgPath"/>
+        	<result property="createTime" column="createTime"/>
+        	<result property="imgType" column="imgType"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,siteId ,siteAlias ,deviceId ,imgDate ,imgName ,imgPath ,createTime ,imgType 
+	    ]]>
+	</sql>
+	
+    <insert id="save" >
+    <![CDATA[
+        INSERT INTO lzm_img_picture (
+        	id ,
+        	siteId ,
+        	siteAlias ,
+        	deviceId ,
+        	imgDate ,
+        	imgName ,
+        	imgPath ,
+        	createTime ,
+        	imgType 
+        ) VALUES (
+        	#id# ,
+        	#siteId# ,
+        	#siteAlias# ,
+        	#deviceId# ,
+        	#imgDate# ,
+        	#imgName# ,
+        	#imgPath# ,
+        	#createTime# ,
+        	#imgType# 
+        )
+    ]]>
+    </insert>
+
+	<insert id="saveNotNull" >
+        INSERT INTO lzm_img_picture (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	id
+			</isNotNull>
+			<isNotNull prepend="," property="siteId">
+        	siteId
+			</isNotNull>
+			<isNotNull prepend="," property="siteAlias">
+        	siteAlias
+			</isNotNull>
+			<isNotNull prepend="," property="deviceId">
+        	deviceId
+			</isNotNull>
+			<isNotNull prepend="," property="imgDate">
+        	imgDate
+			</isNotNull>
+			<isNotNull prepend="," property="imgName">
+        	imgName
+			</isNotNull>
+			<isNotNull prepend="," property="imgPath">
+        	imgPath
+			</isNotNull>
+			<isNotNull prepend="," property="createTime">
+        	createTime
+			</isNotNull>
+			<isNotNull prepend="," property="imgType">
+        	imgType
+			</isNotNull>
+		</dynamic>
+        ) VALUES (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	#id#
+			</isNotNull>
+			<isNotNull prepend="," property="siteId">
+        	#siteId#
+			</isNotNull>
+			<isNotNull prepend="," property="siteAlias">
+        	#siteAlias#
+			</isNotNull>
+			<isNotNull prepend="," property="deviceId">
+        	#deviceId#
+			</isNotNull>
+			<isNotNull prepend="," property="imgDate">
+        	#imgDate#
+			</isNotNull>
+			<isNotNull prepend="," property="imgName">
+        	#imgName#
+			</isNotNull>
+			<isNotNull prepend="," property="imgPath">
+        	#imgPath#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime">
+        	#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="imgType">
+        	#imgType#
+			</isNotNull>
+		</dynamic>    
+        )
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE lzm_img_picture SET
+	        siteId = #siteId# ,
+	        siteAlias = #siteAlias# ,
+	        deviceId = #deviceId# ,
+	        imgDate = #imgDate# ,
+	        imgName = #imgName# ,
+	        imgPath = #imgPath# ,
+	        createTime = #createTime# ,
+	        imgType = #imgType# 
+        WHERE 
+	        id = #id# 
+    ]]>
+    </update>
+
+	 <update id="updateById" >
+        UPDATE lzm_img_picture
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="siteId">
+	        siteId = #siteId#
+			</isNotNull>
+			<isNotNull prepend="," property="siteAlias">
+	        siteAlias = #siteAlias#
+			</isNotNull>
+			<isNotNull prepend="," property="deviceId">
+	        deviceId = #deviceId#
+			</isNotNull>
+			<isNotNull prepend="," property="imgDate">
+	        imgDate = #imgDate#
+			</isNotNull>
+			<isNotNull prepend="," property="imgName">
+	        imgName = #imgName#
+			</isNotNull>
+			<isNotNull prepend="," property="imgPath">
+	        imgPath = #imgPath#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime">
+	        createTime = #createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="imgType">
+	        imgType = #imgType#
+			</isNotNull>
+		</dynamic>
+        WHERE 
+	        id = #id# 
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM lzm_img_picture WHERE
+        id = #id# 
+    ]]>
+    </delete>
+
+   <delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM lzm_img_picture
+    ]]>
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" />
+    </delete>
+    
+    <select id="getById" resultMap="imgpicture">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM lzm_img_picture 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+    </select>
+
+    <select id="getByQuery" resultMap="imgpicture">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM lzm_img_picture 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="getByMaxId" resultMap="imgpicture">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM lzm_img_picture 
+		WHERE 
+		        id = (SELECT MAX(id) from lzm_img_picture 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" /> )
+    </select>
+	 
+    <select id="getCountByQuery" resultClass="Integer">
+        SELECT count(*) FROM lzm_img_picture   
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+    </select>
+    
+    
+    <select id="findAll" resultMap="imgpicture">
+    	SELECT <include refid="columns"/> FROM lzm_img_picture 
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" /> 
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="findPage" resultMap="imgpicture">
+	select <include refid="columns"/> from  lzm_img_picture
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+		<include refid="CommenXML.LimitCommen" />
+    </select>
+	
+</sqlMap>
+

@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="Resource">
+
+	<resultMap id="resource" class="com.source.root.manager.entity.Resource">
+		<result property="id" column="id" />
+		<result property="resourceCode" column="resourceCode" />
+		<result property="resourceName" column="resourceName" />
+		<result property="inheritCode" column="inheritCode" />
+		<result property="levels" column="levels" />
+		<result property="imagePath" column="imagePath" />
+		<result property="resourceUrl" column="resourceUrl" />
+		<result property="isAbleTable" column="isAbleTable" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,resourceCode ,resourceName ,inheritCode ,levels ,imagePath ,resourceUrl ,isAbleTable 
+	    ]]>
+	</sql>
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="myColumns">
+	    <![CDATA[
+        r.id ,r.resourceCode ,r.resourceName ,r.inheritCode ,r.levels ,r.imagePath ,r.resourceUrl ,r.isAbleTable 
+	    ]]>
+	</sql>
+
+	<insert id="save">
+    <![CDATA[
+        INSERT INTO sys_resource (
+        	id ,
+        	resourceCode ,
+        	resourceName ,
+        	inheritCode ,
+        	levels ,
+        	imagePath ,
+        	resourceUrl ,
+        	isAbleTable 
+        ) VALUES (
+        	#id# ,
+        	#resourceCode# ,
+        	#resourceName# ,
+        	#inheritCode# ,
+        	#levels# ,
+        	#imagePath# ,
+        	#resourceUrl# ,
+        	#isAbleTable# 
+        )
+    ]]>
+	</insert>
+
+	<insert id="saveNotNull">
+		INSERT INTO sys_resource (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+				id
+			</isNotNull>
+			<isNotNull prepend="," property="resourceCode">
+				resourceCode
+			</isNotNull>
+			<isNotNull prepend="," property="resourceName">
+				resourceName
+			</isNotNull>
+			<isNotNull prepend="," property="inheritCode">
+				inheritCode
+			</isNotNull>
+			<isNotNull prepend="," property="levels">
+				levels
+			</isNotNull>
+			<isNotNull prepend="," property="imagePath">
+				imagePath
+			</isNotNull>
+			<isNotNull prepend="," property="resourceUrl">
+				resourceUrl
+			</isNotNull>
+			<isNotNull prepend="," property="isAbleTable">
+				isAbleTable
+			</isNotNull>
+		</dynamic>
+		) VALUES (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceCode">
+				#resourceCode#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceName">
+				#resourceName#
+			</isNotNull>
+			<isNotNull prepend="," property="inheritCode">
+				#inheritCode#
+			</isNotNull>
+			<isNotNull prepend="," property="levels">
+				#levels#
+			</isNotNull>
+			<isNotNull prepend="," property="imagePath">
+				#imagePath#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceUrl">
+				#resourceUrl#
+			</isNotNull>
+			<isNotNull prepend="," property="isAbleTable">
+				#isAbleTable#
+			</isNotNull>
+		</dynamic>
+		)
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE sys_resource SET
+	        resourceCode = #resourceCode# ,
+	        resourceName = #resourceName# ,
+	        inheritCode = #inheritCode# ,
+	        levels = #levels# ,
+	        imagePath = #imagePath# ,
+	        resourceUrl = #resourceUrl# ,
+	        isAbleTable = #isAbleTable# 
+        WHERE 
+	        id = #id# 
+    ]]>
+	</update>
+
+	<update id="updateById">
+		UPDATE sys_resource
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="resourceCode">
+				resourceCode = #resourceCode#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceName">
+				resourceName = #resourceName#
+			</isNotNull>
+			<isNotNull prepend="," property="inheritCode">
+				inheritCode = #inheritCode#
+			</isNotNull>
+			<isNotNull prepend="," property="levels">
+				levels = #levels#
+			</isNotNull>
+			<isNotNull prepend="," property="imagePath">
+				imagePath = #imagePath#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceUrl">
+				resourceUrl = #resourceUrl#
+			</isNotNull>
+			<isNotNull prepend="," property="isAbleTable">
+				isAbleTable = #isAbleTable#
+			</isNotNull>
+		</dynamic>
+		WHERE
+		id = #id#
+	</update>
+
+	<delete id="deleteById">
+    <![CDATA[
+        DELETE FROM sys_resource WHERE
+        id = #id# 
+    ]]>
+	</delete>
+
+	<delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM sys_resource
+    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	</delete>
+
+	<select id="getById" resultMap="resource">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+	        FROM sys_resource 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+	</select>
+
+	<select id="getByQuery" resultMap="resource">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+	        FROM sys_resource 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+	<select id="getByMaxId" resultMap="resource">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+	        FROM sys_resource 
+		WHERE 
+		        id = (SELECT MAX(id) from sys_resource) 
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+	<select id="getCountByQuery" resultClass="Integer">
+		SELECT count(*) FROM sys_resource
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	</select>
+
+
+	<select id="findAll" resultMap="resource">
+		SELECT
+		<include refid="columns" />
+		FROM sys_resource
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+	<select id="findPage" resultMap="resource">
+		select
+		<include refid="columns" />
+		from sys_resource
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+		<include refid="CommenXML.LimitCommen" />
+	</select>
+
+	<select id="findByRoleId" resultMap="resource">
+		SELECT
+		<include refid="myColumns" />
+		FROM sys_resource r, sys_roleresource rr
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+</sqlMap>
+

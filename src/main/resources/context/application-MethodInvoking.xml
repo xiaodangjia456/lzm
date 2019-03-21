@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- 依科曼 性诱检测 -->
+	<bean name="readImgPath" class="com.source.root.img.task.TimerReadImgPath" />
+	<bean id="method_readImgPath" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="readImgPath" />
+		</property>
+		<property name="targetMethod">
+			<value>readInsectImgPath</value>
+		</property>
+		<property name="concurrent">
+			<value>true</value>
+		</property>
+	</bean>
+
+	<!-- 依科曼 性诱检测 -->
+	<bean id="cronTrigger_readImgPath" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="method_readImgPath" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/1 * * * ?</value>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!--QuartzScheduler 延时启动，/秒，应用启动后 QuartzScheduler 再启动 -->
+		<property name="startupDelay" value="10" />
+		<!-- 添加触发器 -->
+		<property name="triggers">
+			<list>
+				<ref local="cronTrigger_readImgPath" />
+			</list>
+		</property>
+		<property name="taskExecutor" ref="threadPool" />
+		<property name="autoStartup" value="true" />
+	</bean>
+
+</beans>

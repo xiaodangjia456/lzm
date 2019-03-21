@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="Grouparea">
+
+    <resultMap id="grouparea" class="com.source.root.manager.entity.Grouparea">
+        	<result property="id" column="id"/>
+        	<result property="groupId" column="groupId"/>
+        	<result property="areaId" column="areaId"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,groupId ,areaId 
+	    ]]>
+	</sql>
+	
+    <insert id="save" >
+    <![CDATA[
+        INSERT INTO sys_grouparea (
+        	id ,
+        	groupId ,
+        	areaId 
+        ) VALUES (
+        	#id# ,
+        	#groupId# ,
+        	#areaId# 
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE sys_grouparea SET
+	        groupId = #groupId# ,
+	        areaId = #areaId# 
+        WHERE 
+	        id = #id# 
+    ]]>
+    </update>
+
+	 <update id="updateById" >
+        UPDATE sys_grouparea
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="groupId">
+	        groupId = #groupId#
+			</isNotNull>
+			<isNotNull prepend="," property="areaId">
+	        areaId = #areaId#
+			</isNotNull>
+		</dynamic>
+        WHERE 
+	        id = #id# 
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM sys_grouparea WHERE
+        id = #id# 
+    ]]>
+    </delete>
+
+   <delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM sys_grouparea
+    ]]>
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" />
+    </delete>
+    
+    <select id="getById" resultMap="grouparea">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_grouparea 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+    </select>
+
+    <select id="getByQuery" resultMap="grouparea">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_grouparea 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="getByMaxId" resultMap="grouparea">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_grouparea 
+		WHERE 
+		        id = (SELECT MAX(id) from sys_grouparea )
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	 
+    <select id="getCountByQuery" resultClass="Integer">
+        SELECT count(*) FROM sys_grouparea   
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+    </select>
+    
+    
+    <select id="findAll" resultMap="grouparea">
+    	SELECT <include refid="columns"/> FROM sys_grouparea 
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="findPage" resultMap="grouparea">
+	select <include refid="columns"/> from (
+		select ROW_NUMBER() OVER(
+		<include refid="CommenXML.OrderCommen" />
+		) rowNum, 
+		<include refid="columns"/> from sys_grouparea
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	) as sys_grouparea 
+	<include refid="CommenXML.rowNumCommen" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	
+</sqlMap>
+

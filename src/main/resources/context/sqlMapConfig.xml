@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+ "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" />
+	<!-- 共通 -->
+	<sqlMap resource="com/source/root/framework/ibatis/CommenXML.xml" />
+	<!-- manager 管理 -->
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/City.xml" />
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/Logs.xml" />
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/Resource.xml" />
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/Role.xml" />
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/Roleresource.xml" />
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/User.xml" />
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/Dictionary.xml" />
+	<sqlMap resource="com/source/root/manager/entity/sqlmap/mysql/SiteUser.xml" />
+	
+	<!-- 站点信息管理 -->
+	<sqlMap resource="com/source/root/site/entity/sqlmap/mysql/Site.xml" />
+	<sqlMap resource="com/source/root/site/entity/sqlmap/mysql/Device.xml" />
+	
+	<!-- 气象信息管理 -->
+	<sqlMap resource="com/source/root/xqh/entity/sqlmap/mysql/Qihou.xml" />
+	
+	<!-- 图片管理 -->
+	<sqlMap resource="com/source/root/img/entity/sqlmap/mysql/ImgInsect.xml" />
+	<sqlMap resource="com/source/root/img/entity/sqlmap/mysql/ImgPicture.xml" />
+	<sqlMap resource="com/source/root/img/entity/sqlmap/mysql/ImgSpore.xml" />
+	
+</sqlMapConfig>

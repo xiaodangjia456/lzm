@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="Logs">
+
+    <resultMap id="logs" class="com.source.root.min.entity.Logs">
+        	<result property="id" column="id"/>
+        	<result property="user" column="user"/>
+        	<result property="record" column="record"/>
+        	<result property="creatTime" column="creatTime"/>
+        	<result property="method" column="method"/>
+        	<result property="tableName" column="tableName"/>
+        	<result property="ipAddr" column="ipAddr"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,user ,record ,creatTime ,method ,tableName ,ipAddr 
+	    ]]>
+	</sql>
+	
+    <insert id="save" >
+    <![CDATA[
+        INSERT INTO sys_logs (
+        	id ,
+        	user ,
+        	record ,
+        	creatTime ,
+        	method ,
+        	tableName ,
+        	ipAddr 
+        ) VALUES (
+        	#id# ,
+        	#user# ,
+        	#record# ,
+        	#creatTime# ,
+        	#method# ,
+        	#tableName# ,
+        	#ipAddr# 
+        )
+    ]]>
+    </insert>
+
+	<insert id="saveNotNull" >
+        INSERT INTO sys_logs (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	id
+			</isNotNull>
+			<isNotNull prepend="," property="user">
+        	user
+			</isNotNull>
+			<isNotNull prepend="," property="record">
+        	record
+			</isNotNull>
+			<isNotNull prepend="," property="creatTime">
+        	creatTime
+			</isNotNull>
+			<isNotNull prepend="," property="method">
+        	method
+			</isNotNull>
+			<isNotNull prepend="," property="tableName">
+        	tableName
+			</isNotNull>
+			<isNotNull prepend="," property="ipAddr">
+        	ipAddr
+			</isNotNull>
+		</dynamic>
+        ) VALUES (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	#id#
+			</isNotNull>
+			<isNotNull prepend="," property="user">
+        	#user#
+			</isNotNull>
+			<isNotNull prepend="," property="record">
+        	#record#
+			</isNotNull>
+			<isNotNull prepend="," property="creatTime">
+        	#creatTime#
+			</isNotNull>
+			<isNotNull prepend="," property="method">
+        	#method#
+			</isNotNull>
+			<isNotNull prepend="," property="tableName">
+        	#tableName#
+			</isNotNull>
+			<isNotNull prepend="," property="ipAddr">
+        	#ipAddr#
+			</isNotNull>
+		</dynamic>    
+        )
+    </insert>
+
+     <update id="update" >
+    <![CDATA[
+        UPDATE sys_logs SET
+	        user = #user# ,
+	        record = #record# ,
+	        creatTime = #creatTime# ,
+	        method = #method# ,
+	        tableName = #tableName# ,
+	        ipAddr = #ipAddr# 
+        WHERE 
+	        id = #id# 
+    ]]>
+    </update>
+
+	 <update id="updateById" >
+        UPDATE sys_logs
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="user">
+	        user = #user#
+			</isNotNull>
+			<isNotNull prepend="," property="record">
+	        record = #record#
+			</isNotNull>
+			<isNotNull prepend="," property="creatTime">
+	        creatTime = #creatTime#
+			</isNotNull>
+			<isNotNull prepend="," property="method">
+	        method = #method#
+			</isNotNull>
+			<isNotNull prepend="," property="tableName">
+	        tableName = #tableName#
+			</isNotNull>
+			<isNotNull prepend="," property="ipAddr">
+	        ipAddr = #ipAddr#
+			</isNotNull>
+		</dynamic>
+        WHERE 
+	        id = #id# 
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM sys_logs WHERE
+        id = #id# 
+    ]]>
+    </delete>
+
+   <delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM sys_logs
+    ]]>
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" />
+    </delete>
+    
+    <select id="getById" resultMap="logs">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_logs 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+    </select>
+
+    <select id="getByQuery" resultMap="logs">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_logs 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="getByMaxId" resultMap="logs">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_logs 
+		WHERE 
+		        id = (SELECT MAX(id) from sys_logs )
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	 
+    <select id="getCountByQuery" resultClass="Integer">
+        SELECT count(*) FROM sys_logs   
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+    </select>
+    
+    
+    <select id="findAll" resultMap="logs">
+    	SELECT <include refid="columns"/> FROM sys_logs 
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="findPage" resultMap="logs">
+	select <include refid="columns"/> from (
+		select ROW_NUMBER() OVER(
+		<include refid="CommenXML.OrderCommen" />
+		) rowNum, 
+		<include refid="columns"/> from sys_logs
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	) as sys_logs 
+	<include refid="CommenXML.rowNumCommen" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	
+</sqlMap>
+

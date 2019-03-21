@@ -1,0 +1,12 @@
+.border_shadow{
+	border:1px solid #ccc;
+	-moz-box-shadow: 5px 5px 3px #d1d1d1; /* 老的 Firefox */
+	box-shadow: 5px 5px 3px #d1d1d1;
+	padding: 5px 5px;
+}
+
+.no_border_shadow{
+	-moz-box-shadow: 5px 5px 3px #d1d1d1; /* 老的 Firefox */
+	box-shadow: 5px 5px 3px #d1d1d1;
+	padding: 5px 5px;
+}

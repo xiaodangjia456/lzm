@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="  
+    http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+    http://www.springframework.org/schema/aop   
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd  
+    http://www.springframework.org/schema/tx   
+    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+
+	<!-- 配置eh缓存管理器 -->
+	<bean id="cacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
+
+	<!-- 在spring里配置cache就和在spring配置数据库一样， -->
+	<bean id="methodCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="DEFAULT_CACHE" />
+	</bean>
+
+	<!-- 配置一个缓存拦截器对象，处理具体的缓存业务 -->
+	<bean id="methodCacheInterceptor"
+		class="com.source.root.framework.interceptor.Cache.MethodCacheInterceptor">
+		<property name="cache" ref="methodCache" />
+	</bean>
+
+	<bean id="methodCachePointCut"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="methodCacheInterceptor" />
+		</property>
+		<!-- 下面的配置就使得在数据访问时，cache将拦截从数据库获取的数据，与cache数据比较，如有就不放入cache，没有就放入，更新到数据库去，也是先存入cache，再更新到数据库中去 -->
+		<property name="patterns">
+			<list>
+				<value>.*getLogin</value>
+			</list>
+		</property>
+	</bean>
+</beans>

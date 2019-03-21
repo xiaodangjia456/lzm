@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="Qihou">
+
+    <resultMap id="qihou" class="com.source.root.xqh.entity.Qihou">
+        	<result property="id" column="id"/>
+        	<result property="siteId" column="siteId"/>
+        	<result property="deviceId" column="deviceId"/>
+        	<result property="zhuce" column="zhuce"/>
+        	<result property="riqi" column="riqi"/>
+        	<result property="shijian" column="shijian"/>
+        	<result property="kongqiwendu" column="kongqiwendu"/>
+        	<result property="kongqishidu" column="kongqishidu"/>
+        	<result property="daqiyaqiang" column="daqiyaqiang"/>
+        	<result property="fengxiang" column="fengxiang"/>
+        	<result property="fengsu" column="fengsu"/>
+        	<result property="yuliang" column="yuliang"/>
+        	<result property="zhengfaliang" column="zhengfaliang"/>
+        	<result property="guangzhaoqiangdu" column="guangzhaoqiangdu"/>
+        	<result property="guanghe" column="guanghe"/>
+        	<result property="zongfushe" column="zongfushe"/>
+        	<result property="turangwendu1" column="turangwendu1"/>
+        	<result property="turangwendu2" column="turangwendu2"/>
+        	<result property="turangwendu3" column="turangwendu3"/>
+        	<result property="turangshidu1" column="turangshidu1"/>
+        	<result property="turangshidu2" column="turangshidu2"/>
+        	<result property="turangshidu3" column="turangshidu3"/>
+        	<result property="turangEc" column="turangEC"/>
+        	<result property="turangPh" column="turangPH"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,siteId ,deviceId ,zhuce ,riqi ,shijian ,kongqiwendu ,kongqishidu ,daqiyaqiang ,fengxiang ,fengsu ,yuliang ,zhengfaliang ,guangzhaoqiangdu ,guanghe ,zongfushe ,turangwendu1 ,turangwendu2 ,turangwendu3 ,turangshidu1 ,turangshidu2 ,turangshidu3 ,turangEC ,turangPH 
+	    ]]>
+	</sql>
+	
+    <insert id="save" >
+    <![CDATA[
+        INSERT INTO lzm_qihou (
+        	id ,
+        	siteId ,
+        	deviceId ,
+        	zhuce ,
+        	riqi ,
+        	shijian ,
+        	kongqiwendu ,
+        	kongqishidu ,
+        	daqiyaqiang ,
+        	fengxiang ,
+        	fengsu ,
+        	yuliang ,
+        	zhengfaliang ,
+        	guangzhaoqiangdu ,
+        	guanghe ,
+        	zongfushe ,
+        	turangwendu1 ,
+        	turangwendu2 ,
+        	turangwendu3 ,
+        	turangshidu1 ,
+        	turangshidu2 ,
+        	turangshidu3 ,
+        	turangEC ,
+        	turangPH 
+        ) VALUES (
+        	#id# ,
+        	#siteId# ,
+        	#deviceId# ,
+        	#zhuce# ,
+        	#riqi# ,
+        	#shijian# ,
+        	#kongqiwendu# ,
+        	#kongqishidu# ,
+        	#daqiyaqiang# ,
+        	#fengxiang# ,
+        	#fengsu# ,
+        	#yuliang# ,
+        	#zhengfaliang# ,
+        	#guangzhaoqiangdu# ,
+        	#guanghe# ,
+        	#zongfushe# ,
+        	#turangwendu1# ,
+        	#turangwendu2# ,
+        	#turangwendu3# ,
+        	#turangshidu1# ,
+        	#turangshidu2# ,
+        	#turangshidu3# ,
+        	#turangEc# ,
+        	#turangPh# 
+        )
+    ]]>
+    </insert>
+
+	<insert id="saveNotNull" >
+        INSERT INTO lzm_qihou (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	id
+			</isNotNull>
+			<isNotNull prepend="," property="siteId">
+        	siteId
+			</isNotNull>
+			<isNotNull prepend="," property="deviceId">
+        	deviceId
+			</isNotNull>
+			<isNotNull prepend="," property="zhuce">
+        	zhuce
+			</isNotNull>
+			<isNotNull prepend="," property="riqi">
+        	riqi
+			</isNotNull>
+			<isNotNull prepend="," property="shijian">
+        	shijian
+			</isNotNull>
+			<isNotNull prepend="," property="kongqiwendu">
+        	kongqiwendu
+			</isNotNull>
+			<isNotNull prepend="," property="kongqishidu">
+        	kongqishidu
+			</isNotNull>
+			<isNotNull prepend="," property="daqiyaqiang">
+        	daqiyaqiang
+			</isNotNull>
+			<isNotNull prepend="," property="fengxiang">
+        	fengxiang
+			</isNotNull>
+			<isNotNull prepend="," property="fengsu">
+        	fengsu
+			</isNotNull>
+			<isNotNull prepend="," property="yuliang">
+        	yuliang
+			</isNotNull>
+			<isNotNull prepend="," property="zhengfaliang">
+        	zhengfaliang
+			</isNotNull>
+			<isNotNull prepend="," property="guangzhaoqiangdu">
+        	guangzhaoqiangdu
+			</isNotNull>
+			<isNotNull prepend="," property="guanghe">
+        	guanghe
+			</isNotNull>
+			<isNotNull prepend="," property="zongfushe">
+        	zongfushe
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu1">
+        	turangwendu1
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu2">
+        	turangwendu2
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu3">
+        	turangwendu3
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu1">
+        	turangshidu1
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu2">
+        	turangshidu2
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu3">
+        	turangshidu3
+			</isNotNull>
+			<isNotNull prepend="," property="turangEc">
+        	turangEC
+			</isNotNull>
+			<isNotNull prepend="," property="turangPh">
+        	turangPH
+			</isNotNull>
+		</dynamic>
+        ) VALUES (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	#id#
+			</isNotNull>
+			<isNotNull prepend="," property="siteId">
+        	#siteId#
+			</isNotNull>
+			<isNotNull prepend="," property="deviceId">
+        	#deviceId#
+			</isNotNull>
+			<isNotNull prepend="," property="zhuce">
+        	#zhuce#
+			</isNotNull>
+			<isNotNull prepend="," property="riqi">
+        	#riqi#
+			</isNotNull>
+			<isNotNull prepend="," property="shijian">
+        	#shijian#
+			</isNotNull>
+			<isNotNull prepend="," property="kongqiwendu">
+        	#kongqiwendu#
+			</isNotNull>
+			<isNotNull prepend="," property="kongqishidu">
+        	#kongqishidu#
+			</isNotNull>
+			<isNotNull prepend="," property="daqiyaqiang">
+        	#daqiyaqiang#
+			</isNotNull>
+			<isNotNull prepend="," property="fengxiang">
+        	#fengxiang#
+			</isNotNull>
+			<isNotNull prepend="," property="fengsu">
+        	#fengsu#
+			</isNotNull>
+			<isNotNull prepend="," property="yuliang">
+        	#yuliang#
+			</isNotNull>
+			<isNotNull prepend="," property="zhengfaliang">
+        	#zhengfaliang#
+			</isNotNull>
+			<isNotNull prepend="," property="guangzhaoqiangdu">
+        	#guangzhaoqiangdu#
+			</isNotNull>
+			<isNotNull prepend="," property="guanghe">
+        	#guanghe#
+			</isNotNull>
+			<isNotNull prepend="," property="zongfushe">
+        	#zongfushe#
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu1">
+        	#turangwendu1#
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu2">
+        	#turangwendu2#
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu3">
+        	#turangwendu3#
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu1">
+        	#turangshidu1#
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu2">
+        	#turangshidu2#
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu3">
+        	#turangshidu3#
+			</isNotNull>
+			<isNotNull prepend="," property="turangEc">
+        	#turangEc#
+			</isNotNull>
+			<isNotNull prepend="," property="turangPh">
+        	#turangPh#
+			</isNotNull>
+		</dynamic>    
+        )
+    </insert>
+
+     <update id="update" >
+    <![CDATA[
+        UPDATE lzm_qihou SET
+	        siteId = #siteId# ,
+	        deviceId = #deviceId# ,
+	        zhuce = #zhuce# ,
+	        riqi = #riqi# ,
+	        shijian = #shijian# ,
+	        kongqiwendu = #kongqiwendu# ,
+	        kongqishidu = #kongqishidu# ,
+	        daqiyaqiang = #daqiyaqiang# ,
+	        fengxiang = #fengxiang# ,
+	        fengsu = #fengsu# ,
+	        yuliang = #yuliang# ,
+	        zhengfaliang = #zhengfaliang# ,
+	        guangzhaoqiangdu = #guangzhaoqiangdu# ,
+	        guanghe = #guanghe# ,
+	        zongfushe = #zongfushe# ,
+	        turangwendu1 = #turangwendu1# ,
+	        turangwendu2 = #turangwendu2# ,
+	        turangwendu3 = #turangwendu3# ,
+	        turangshidu1 = #turangshidu1# ,
+	        turangshidu2 = #turangshidu2# ,
+	        turangshidu3 = #turangshidu3# ,
+	        turangEC = #turangEc# ,
+	        turangPH = #turangPh# 
+        WHERE 
+	        id = #id# 
+    ]]>
+    </update>
+
+	 <update id="updateById" >
+        UPDATE lzm_qihou
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="siteId">
+	        siteId = #siteId#
+			</isNotNull>
+			<isNotNull prepend="," property="deviceId">
+	        deviceId = #deviceId#
+			</isNotNull>
+			<isNotNull prepend="," property="zhuce">
+	        zhuce = #zhuce#
+			</isNotNull>
+			<isNotNull prepend="," property="riqi">
+	        riqi = #riqi#
+			</isNotNull>
+			<isNotNull prepend="," property="shijian">
+	        shijian = #shijian#
+			</isNotNull>
+			<isNotNull prepend="," property="kongqiwendu">
+	        kongqiwendu = #kongqiwendu#
+			</isNotNull>
+			<isNotNull prepend="," property="kongqishidu">
+	        kongqishidu = #kongqishidu#
+			</isNotNull>
+			<isNotNull prepend="," property="daqiyaqiang">
+	        daqiyaqiang = #daqiyaqiang#
+			</isNotNull>
+			<isNotNull prepend="," property="fengxiang">
+	        fengxiang = #fengxiang#
+			</isNotNull>
+			<isNotNull prepend="," property="fengsu">
+	        fengsu = #fengsu#
+			</isNotNull>
+			<isNotNull prepend="," property="yuliang">
+	        yuliang = #yuliang#
+			</isNotNull>
+			<isNotNull prepend="," property="zhengfaliang">
+	        zhengfaliang = #zhengfaliang#
+			</isNotNull>
+			<isNotNull prepend="," property="guangzhaoqiangdu">
+	        guangzhaoqiangdu = #guangzhaoqiangdu#
+			</isNotNull>
+			<isNotNull prepend="," property="guanghe">
+	        guanghe = #guanghe#
+			</isNotNull>
+			<isNotNull prepend="," property="zongfushe">
+	        zongfushe = #zongfushe#
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu1">
+	        turangwendu1 = #turangwendu1#
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu2">
+	        turangwendu2 = #turangwendu2#
+			</isNotNull>
+			<isNotNull prepend="," property="turangwendu3">
+	        turangwendu3 = #turangwendu3#
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu1">
+	        turangshidu1 = #turangshidu1#
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu2">
+	        turangshidu2 = #turangshidu2#
+			</isNotNull>
+			<isNotNull prepend="," property="turangshidu3">
+	        turangshidu3 = #turangshidu3#
+			</isNotNull>
+			<isNotNull prepend="," property="turangEc">
+	        turangEC = #turangEc#
+			</isNotNull>
+			<isNotNull prepend="," property="turangPh">
+	        turangPH = #turangPh#
+			</isNotNull>
+		</dynamic>
+        WHERE 
+	        id = #id# 
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM lzm_qihou WHERE
+        id = #id# 
+    ]]>
+    </delete>
+
+   <delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM lzm_qihou
+    ]]>
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" />
+    </delete>
+    
+    <select id="getById" resultMap="qihou">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM lzm_qihou 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+    </select>
+
+    <select id="getByQuery" resultMap="qihou">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM lzm_qihou 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="getByMaxId" resultMap="qihou">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM lzm_qihou 
+		WHERE 
+		        id = SELECT MAX(id) from lzm_qihou 
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	 
+    <select id="getCountByQuery" resultClass="Integer">
+        SELECT count(*) FROM lzm_qihou   
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+    </select>
+    
+    
+    <select id="findAll" resultMap="qihou">
+    	SELECT <include refid="columns"/> FROM lzm_qihou 
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="findPage" resultMap="qihou">
+	select <include refid="columns"/> from (
+		select ROW_NUMBER() OVER(
+		<include refid="CommenXML.OrderCommen" />
+		) rowNum, 
+		<include refid="columns"/> from lzm_qihou
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	) as lzm_qihou 
+	<include refid="CommenXML.rowNumCommen" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	
+</sqlMap>
+

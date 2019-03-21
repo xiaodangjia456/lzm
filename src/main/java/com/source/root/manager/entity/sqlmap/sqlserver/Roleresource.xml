@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="Roleresource">
+
+    <resultMap id="roleresource" class="com.source.root.min.entity.Roleresource">
+        	<result property="id" column="id"/>
+        	<result property="roleId" column="roleId"/>
+        	<result property="resourceId" column="resourceId"/>
+        	<result property="userId" column="userId"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,roleId ,resourceId ,userId 
+	    ]]>
+	</sql>
+	
+    <insert id="save" >
+    <![CDATA[
+        INSERT INTO sys_roleresource (
+        	id ,
+        	roleId ,
+        	resourceId ,
+        	userId 
+        ) VALUES (
+        	#id# ,
+        	#roleId# ,
+        	#resourceId# ,
+        	#userId# 
+        )
+    ]]>
+    </insert>
+
+	<insert id="saveNotNull" >
+        INSERT INTO sys_roleresource (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	id
+			</isNotNull>
+			<isNotNull prepend="," property="roleId">
+        	roleId
+			</isNotNull>
+			<isNotNull prepend="," property="resourceId">
+        	resourceId
+			</isNotNull>
+			<isNotNull prepend="," property="userId">
+        	userId
+			</isNotNull>
+		</dynamic>
+        ) VALUES (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	#id#
+			</isNotNull>
+			<isNotNull prepend="," property="roleId">
+        	#roleId#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceId">
+        	#resourceId#
+			</isNotNull>
+			<isNotNull prepend="," property="userId">
+        	#userId#
+			</isNotNull>
+		</dynamic>    
+        )
+    </insert>
+
+     <update id="update" >
+    <![CDATA[
+        UPDATE sys_roleresource SET
+	        roleId = #roleId# ,
+	        resourceId = #resourceId# ,
+	        userId = #userId# 
+        WHERE 
+	        id = #id# 
+    ]]>
+    </update>
+
+	 <update id="updateById" >
+        UPDATE sys_roleresource
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="roleId">
+	        roleId = #roleId#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceId">
+	        resourceId = #resourceId#
+			</isNotNull>
+			<isNotNull prepend="," property="userId">
+	        userId = #userId#
+			</isNotNull>
+		</dynamic>
+        WHERE 
+	        id = #id# 
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM sys_roleresource WHERE
+        id = #id# 
+    ]]>
+    </delete>
+
+   <delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM sys_roleresource
+    ]]>
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" />
+    </delete>
+    
+    <select id="getById" resultMap="roleresource">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_roleresource 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+    </select>
+
+    <select id="getByQuery" resultMap="roleresource">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_roleresource 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="getByMaxId" resultMap="roleresource">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_roleresource 
+		WHERE 
+		        id = (SELECT MAX(id) from sys_roleresource )
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	 
+    <select id="getCountByQuery" resultClass="Integer">
+        SELECT count(*) FROM sys_roleresource   
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+    </select>
+    
+    
+    <select id="findAll" resultMap="roleresource">
+    	SELECT <include refid="columns"/> FROM sys_roleresource 
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="findPage" resultMap="roleresource">
+	select <include refid="columns"/> from (
+		select ROW_NUMBER() OVER(
+		<include refid="CommenXML.OrderCommen" />
+		) rowNum, 
+		<include refid="columns"/> from sys_roleresource
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	) as sys_roleresource 
+	<include refid="CommenXML.rowNumCommen" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	
+</sqlMap>
+

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="Usergroup">
+
+	<resultMap id="usergroup" class="com.source.root.manager.entity.Usergroup">
+		<result property="id" column="id" />
+		<result property="userId" column="userId" />
+		<result property="groupId" column="groupId" />
+	</resultMap>
+
+	<resultMap id="groupuser" class="com.source.root.manager.entity.Groupuser">
+		<result property="userId" column="userId" />
+		<result property="groupId" column="groupId" />
+		<result property="userName" column="userName" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,userId ,groupId 
+	    ]]>
+	</sql>
+
+	<insert id="save">
+    <![CDATA[
+        INSERT INTO sys_usergroup (
+        	id ,
+        	userId ,
+        	groupId 
+        ) VALUES (
+        	#id# ,
+        	#userId# ,
+        	#groupId# 
+        )
+    ]]>
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE sys_usergroup SET
+	        userId = #userId# ,
+	        groupId = #groupId# 
+        WHERE 
+	        id = #id# 
+    ]]>
+	</update>
+
+	<update id="updateById">
+		UPDATE sys_usergroup
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="userId">
+				userId = #userId#
+			</isNotNull>
+			<isNotNull prepend="," property="groupId">
+				groupId = #groupId#
+			</isNotNull>
+		</dynamic>
+		WHERE
+		id = #id#
+	</update>
+
+	<delete id="deleteById">
+    <![CDATA[
+        DELETE FROM sys_usergroup WHERE
+        id = #id# 
+    ]]>
+	</delete>
+
+	<delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM sys_usergroup
+    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	</delete>
+
+	<select id="getById" resultMap="usergroup">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+	        FROM sys_usergroup 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+	</select>
+
+	<select id="getByQuery" resultMap="usergroup">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+	        FROM sys_usergroup 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+	<select id="getByMaxId" resultMap="usergroup">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+	        FROM sys_usergroup 
+		WHERE 
+		        id = (SELECT MAX(id) from sys_usergroup )
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+	<select id="getCountByQuery" resultClass="Integer">
+		SELECT count(*) FROM sys_usergroup
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	</select>
+
+
+	<select id="findAll" resultMap="usergroup">
+		SELECT
+		<include refid="columns" />
+		FROM sys_usergroup
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+	<select id="findPage" resultMap="usergroup">
+		select
+		<include refid="columns" />
+		from sys_usergroup
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+		<include refid="CommenXML.LimitCommen" />
+	</select>
+
+	<select id="findUserAndGroup" resultMap="groupuser">
+		select ug.userId userId,ug.groupId groupId,u.username userName from
+		sys_user u, sys_usergroup ug
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+	</select>
+
+</sqlMap>
+

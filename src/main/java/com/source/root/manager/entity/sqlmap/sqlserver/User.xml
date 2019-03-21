@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap namespace="User">
+
+    <resultMap id="user" class="com.source.root.min.entity.User">
+        	<result property="id" column="id"/>
+        	<result property="name" column="name"/>
+        	<result property="password" column="password"/>
+        	<result property="realPassword" column="realPassword"/>
+        	<result property="phone" column="phone"/>
+        	<result property="realName" column="realName"/>
+        	<result property="sheng" column="sheng"/>
+        	<result property="shi" column="shi"/>
+        	<result property="xian" column="xian"/>
+        	<result property="xiang" column="xiang"/>
+        	<result property="cun" column="cun"/>
+        	<result property="address" column="address"/>
+        	<result property="qq" column="qq"/>
+        	<result property="email" column="email"/>
+        	<result property="img" column="img"/>
+        	<result property="danwei" column="danwei"/>
+        	<result property="roleId" column="roleId"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,name ,password ,realPassword ,phone ,realName ,sheng ,shi ,xian ,xiang ,cun ,address ,qq ,email ,img ,danwei ,roleId 
+	    ]]>
+	</sql>
+	
+    <insert id="save" >
+    <![CDATA[
+        INSERT INTO sys_user (
+        	id ,
+        	name ,
+        	password ,
+        	realPassword ,
+        	phone ,
+        	realName ,
+        	sheng ,
+        	shi ,
+        	xian ,
+        	xiang ,
+        	cun ,
+        	address ,
+        	qq ,
+        	email ,
+        	img ,
+        	danwei ,
+        	roleId 
+        ) VALUES (
+        	#id# ,
+        	#name# ,
+        	#password# ,
+        	#realPassword# ,
+        	#phone# ,
+        	#realName# ,
+        	#sheng# ,
+        	#shi# ,
+        	#xian# ,
+        	#xiang# ,
+        	#cun# ,
+        	#address# ,
+        	#qq# ,
+        	#email# ,
+        	#img# ,
+        	#danwei# ,
+        	#roleId# 
+        )
+    ]]>
+    </insert>
+
+	<insert id="saveNotNull" >
+        INSERT INTO sys_user (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	id
+			</isNotNull>
+			<isNotNull prepend="," property="name">
+        	name
+			</isNotNull>
+			<isNotNull prepend="," property="password">
+        	password
+			</isNotNull>
+			<isNotNull prepend="," property="realPassword">
+        	realPassword
+			</isNotNull>
+			<isNotNull prepend="," property="phone">
+        	phone
+			</isNotNull>
+			<isNotNull prepend="," property="realName">
+        	realName
+			</isNotNull>
+			<isNotNull prepend="," property="sheng">
+        	sheng
+			</isNotNull>
+			<isNotNull prepend="," property="shi">
+        	shi
+			</isNotNull>
+			<isNotNull prepend="," property="xian">
+        	xian
+			</isNotNull>
+			<isNotNull prepend="," property="xiang">
+        	xiang
+			</isNotNull>
+			<isNotNull prepend="," property="cun">
+        	cun
+			</isNotNull>
+			<isNotNull prepend="," property="address">
+        	address
+			</isNotNull>
+			<isNotNull prepend="," property="qq">
+        	qq
+			</isNotNull>
+			<isNotNull prepend="," property="email">
+        	email
+			</isNotNull>
+			<isNotNull prepend="," property="img">
+        	img
+			</isNotNull>
+			<isNotNull prepend="," property="danwei">
+        	danwei
+			</isNotNull>
+			<isNotNull prepend="," property="roleId">
+        	roleId
+			</isNotNull>
+		</dynamic>
+        ) VALUES (
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">
+        	#id#
+			</isNotNull>
+			<isNotNull prepend="," property="name">
+        	#name#
+			</isNotNull>
+			<isNotNull prepend="," property="password">
+        	#password#
+			</isNotNull>
+			<isNotNull prepend="," property="realPassword">
+        	#realPassword#
+			</isNotNull>
+			<isNotNull prepend="," property="phone">
+        	#phone#
+			</isNotNull>
+			<isNotNull prepend="," property="realName">
+        	#realName#
+			</isNotNull>
+			<isNotNull prepend="," property="sheng">
+        	#sheng#
+			</isNotNull>
+			<isNotNull prepend="," property="shi">
+        	#shi#
+			</isNotNull>
+			<isNotNull prepend="," property="xian">
+        	#xian#
+			</isNotNull>
+			<isNotNull prepend="," property="xiang">
+        	#xiang#
+			</isNotNull>
+			<isNotNull prepend="," property="cun">
+        	#cun#
+			</isNotNull>
+			<isNotNull prepend="," property="address">
+        	#address#
+			</isNotNull>
+			<isNotNull prepend="," property="qq">
+        	#qq#
+			</isNotNull>
+			<isNotNull prepend="," property="email">
+        	#email#
+			</isNotNull>
+			<isNotNull prepend="," property="img">
+        	#img#
+			</isNotNull>
+			<isNotNull prepend="," property="danwei">
+        	#danwei#
+			</isNotNull>
+			<isNotNull prepend="," property="roleId">
+        	#roleId#
+			</isNotNull>
+		</dynamic>    
+        )
+    </insert>
+
+     <update id="update" >
+    <![CDATA[
+        UPDATE sys_user SET
+	        name = #name# ,
+	        password = #password# ,
+	        realPassword = #realPassword# ,
+	        phone = #phone# ,
+	        realName = #realName# ,
+	        sheng = #sheng# ,
+	        shi = #shi# ,
+	        xian = #xian# ,
+	        xiang = #xiang# ,
+	        cun = #cun# ,
+	        address = #address# ,
+	        qq = #qq# ,
+	        email = #email# ,
+	        img = #img# ,
+	        danwei = #danwei# ,
+	        roleId = #roleId# 
+        WHERE 
+	        id = #id# 
+    ]]>
+    </update>
+
+	 <update id="updateById" >
+        UPDATE sys_user
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="name">
+	        name = #name#
+			</isNotNull>
+			<isNotNull prepend="," property="password">
+	        password = #password#
+			</isNotNull>
+			<isNotNull prepend="," property="realPassword">
+	        realPassword = #realPassword#
+			</isNotNull>
+			<isNotNull prepend="," property="phone">
+	        phone = #phone#
+			</isNotNull>
+			<isNotNull prepend="," property="realName">
+	        realName = #realName#
+			</isNotNull>
+			<isNotNull prepend="," property="sheng">
+	        sheng = #sheng#
+			</isNotNull>
+			<isNotNull prepend="," property="shi">
+	        shi = #shi#
+			</isNotNull>
+			<isNotNull prepend="," property="xian">
+	        xian = #xian#
+			</isNotNull>
+			<isNotNull prepend="," property="xiang">
+	        xiang = #xiang#
+			</isNotNull>
+			<isNotNull prepend="," property="cun">
+	        cun = #cun#
+			</isNotNull>
+			<isNotNull prepend="," property="address">
+	        address = #address#
+			</isNotNull>
+			<isNotNull prepend="," property="qq">
+	        qq = #qq#
+			</isNotNull>
+			<isNotNull prepend="," property="email">
+	        email = #email#
+			</isNotNull>
+			<isNotNull prepend="," property="img">
+	        img = #img#
+			</isNotNull>
+			<isNotNull prepend="," property="danwei">
+	        danwei = #danwei#
+			</isNotNull>
+			<isNotNull prepend="," property="roleId">
+	        roleId = #roleId#
+			</isNotNull>
+		</dynamic>
+        WHERE 
+	        id = #id# 
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM sys_user WHERE
+        id = #id# 
+    ]]>
+    </delete>
+
+   <delete id="deleteByQuery">
+    <![CDATA[
+        DELETE FROM sys_user
+    ]]>
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" />
+    </delete>
+    
+    <select id="getById" resultMap="user">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_user 
+	        WHERE 
+		        id = #id# 
+	    ]]>
+    </select>
+
+    <select id="getByQuery" resultMap="user">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_user 
+	    ]]>
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="getByMaxId" resultMap="user">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM sys_user 
+		WHERE 
+		        id =(SELECT MAX(id) from sys_user )
+	    ]]>
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	 
+    <select id="getCountByQuery" resultClass="Integer">
+        SELECT count(*) FROM sys_user   
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+    </select>
+    
+    
+    <select id="findAll" resultMap="user">
+    	SELECT <include refid="columns"/> FROM sys_user 
+	<include refid="CommenXML.WhereAndParameter" />
+	<include refid="CommenXML.OrParameter" /> 
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+
+    <select id="findPage" resultMap="user">
+	select <include refid="columns"/> from (
+		select ROW_NUMBER() OVER(
+		<include refid="CommenXML.OrderCommen" />
+		) rowNum, 
+		<include refid="columns"/> from sys_user
+		<include refid="CommenXML.WhereAndParameter" />
+		<include refid="CommenXML.OrParameter" />
+	) as sys_user 
+	<include refid="CommenXML.rowNumCommen" />
+		<include refid="CommenXML.OrderCommen" />
+    </select>
+	
+</sqlMap>
+
